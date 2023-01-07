@@ -7,33 +7,15 @@
 
 <script>
 import PostList from '../components/PostList'
-import { ref } from '@vue/reactivity'
-
+import getPosts from '../composables/getPosts'
 export default {
   components: { PostList },
   setup() {
-    let posts = ref([
-    {
-      title:'title 1',body:'Lorem ipsum dolor sit amet consectetur adipisicing elit.',id:1
-    },
-    {
-      title:'title 2',body:'Lorem ipsum dolor sit amet consectetur adipisicing elit.',id:2
-    },
-    {
-      title:'title 3',body:'Lorem ipsum dolor sit amet consectetur adipisicing elit.',id:3
-    },
-    {
-      title:'title 4',body:'Lorem ipsum dolor sit amet consectetur adipisicing elit.',id:4
-    },
-    {
-      title:'title 5',body:'Lorem ipsum dolor sit amet consectetur adipisicing elit.',id:5
-    },
-    ]);
+    let {posts,error,load} = getPosts();
+    load();
 
 
-
-
-    return {posts}
+    return {posts,error}
   }
 }
 </script>
