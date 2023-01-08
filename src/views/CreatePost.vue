@@ -9,6 +9,13 @@
         <label>Post Body</label>
         <textarea  cols="30" rows="10" v-model="body"></textarea>
     </div>
+    <div class="from-group">
+        <label>Add Tag</label>
+        <input type="text" v-model="tag" @keydown.enter.prevent="addTags">
+        <div v-for="tag in tags" :key="tag" class="tag">
+            {{ tag }}
+        </div>
+    </div>
     <button>Add Post</button>
   </form>
 </template>
@@ -21,6 +28,15 @@ export default {
         let router = useRouter();
         let title = ref('');
         let body = ref('');
+        let tag = ref('');
+        let tags = ref([]);
+
+        let addTags = () => {
+            if(!tags.value.includes(tag.value)) {
+                tags.value.push(tag.value);
+                tag.value = '';
+            }
+        }
 
         let addPost = async ()=> {
             await fetch("http://localhost:3000/posts",{
@@ -31,14 +47,15 @@ export default {
                 body:JSON.stringify(
                     {
                         title:title.value,
-                        body:body.value
+                        body:body.value,
+                        tags:tags.value
                     }
                 )
             })
             router.push('/')
         }
 
-        return {title,body,addPost}
+        return {title,body,addPost,tag,tags,addTags}
     }
 }
 </script>
@@ -50,7 +67,7 @@ export default {
         }
     form {
         width: 400px;
-        margin: 0 auto;
+        margin: 0 auto 100px;
     }
     .from-group label {
         display: block;
@@ -72,5 +89,14 @@ export default {
     button {
         padding: 10px;
         cursor: pointer;
+    }
+    .tag {
+        display: inline-block;
+        margin: 0 10px 20px;
+        color: #444;
+        background: #ddd;
+        padding: 8px;
+        border-radius: 20px;
+        font-size: 14px;
     }
 </style>
