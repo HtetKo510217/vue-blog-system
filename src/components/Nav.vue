@@ -3,6 +3,7 @@
     <h1>Blog</h1>
     <div class="routerLink">
       <router-link to="/">Home</router-link>
+      <router-link :to="{name:'createPost'}">Create</router-link>
     </div>
   </header>
 </template>
